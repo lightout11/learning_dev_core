@@ -5,7 +5,7 @@
 #include "Account.h"
 
 class Checking_Account : public Account {
-    friend ostream& operator <<(ostream& os, const Checking_Account& account);
+    friend std::ostream& operator <<(std::ostream& os, const Checking_Account& account);
 
     public:
         bool withdraw(double amount);
@@ -16,7 +16,5 @@ class Checking_Account : public Account {
         static constexpr const char* def_name = "Unnamed Checking Account";
         static constexpr double def_balance = 0.0;
         static constexpr double withdraw_fee = 1.5;
-
 };
-
 #endif
