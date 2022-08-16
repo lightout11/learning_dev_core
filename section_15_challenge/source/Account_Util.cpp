@@ -9,7 +9,7 @@ void display(const std::vector<Account>& accounts) {
 }
 
 void deposit(std::vector<Account>& accounts, double amount) {
-    std::cout << "\n=== Depositing to Accounts" << std::endl;
+    std::cout << "\n=== Depositing to Accounts" << "===" << std::endl;
     for (auto& acc : accounts) {
         if (acc.deposit(amount)) {
             std::cout << "Deposited " << amount << " to " << acc << std::endl;
