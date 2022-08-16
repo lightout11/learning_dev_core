@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 #include "Movies.h"
 
 using namespace std;
