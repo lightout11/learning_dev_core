@@ -5,8 +5,8 @@
 
 using namespace std;
 
-Song::Song(std::string name, int rating, std::string performers = "Unknown performers") :
-    name(name), rating(rating), performers(performers) {}
+Song::Song(std::string name, std::string performers, int rating) :
+    name(name), performers(performers), rating(rating) {}
 
 string Song::get_info() {
     stringstream ss;
