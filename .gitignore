@@ -17,5 +17,5 @@ CMakeFiles/
 *.cmake
 CMakeCache.txt
 
-# makefile
-Makefile
+# Unignore Makefile
+!Makefile
