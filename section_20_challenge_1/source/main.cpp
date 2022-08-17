@@ -1,5 +1,6 @@
 #include <iostream>
 #include <deque>
+#include <cstring>
 
 using namespace std;
 
@@ -7,7 +8,7 @@ bool is_palindrome(const string& s) {
     deque<char> d;
     for (char c : s) {
         if (c != ' ') {
-            d.push_back(c);
+            d.push_back(toupper(c));
         }
     }
     while (!d.empty()) {
