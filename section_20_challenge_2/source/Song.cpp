@@ -10,6 +10,6 @@ Song::Song(std::string name, std::string performers, int rating) :
 
 string Song::get_info() {
     stringstream ss;
-    ss << setw(32) << name << setw(32) << performers << setw(8) << rating;
+    ss << setw(48) << name << setw(32) << performers << setw(8) << rating;
     return ss.str();
 }
