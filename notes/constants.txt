@@ -1,0 +1,7 @@
+Types of constants
+
+Literal constants
+Declared constants (const)
+Constant expressions (constexpr)
+Enumerated constants (enum)
+Defined constants (#define)
