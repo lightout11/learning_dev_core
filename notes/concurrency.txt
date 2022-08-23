@@ -1,0 +1,2 @@
+concurrency: different tasks run at the same time
+parallelism: same tasks run at the same time
