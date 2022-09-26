@@ -3,6 +3,7 @@
 
 #include <sys/socket.h>
 #include <netinet/ip.h>
+#include <netinet/in.h>
 #include <string>
 
 class ServerSocket {
@@ -10,18 +11,19 @@ class ServerSocket {
         ServerSocket(std::string ip_address, int port);
 
         int Listen();
-        int Kill(pid_t pid);
+        int Handle();
         int SendFile(std::string file_path);
 
     protected:
         static constexpr int kBackLog = 8;
+        static constexpr int kBufferSize = 256;
 
-    private:  
-        int socketfd_;
-        sockaddr socket_address_;
+    private:
+        int socket_;
+        int accepted_socket_;
         sockaddr_in internet_socket_address_;
         std::string command_;
-        char buffer[256];
+        char buffer_[kBufferSize];
 };
 
 #endif
