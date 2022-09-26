@@ -17,6 +17,7 @@ class ServerSocket {
     protected:
         static constexpr int kBackLog = 8;
         static constexpr int kBufferSize = 256;
+        inline static const std::string kTemporaryFileName = "temp.txt";
 
     private:
         int socket_;
