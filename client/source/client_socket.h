@@ -20,6 +20,7 @@ class ClientSocket {
     private:
         int socket_;
         sockaddr_in internet_socket_address_;
+        char buffer_[kBufferSize];
 
 };
 
