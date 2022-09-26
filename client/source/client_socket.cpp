@@ -43,7 +43,7 @@ int ClientSocket::Receive(string file_path) {
         if (strcmp(buffer, "\e") == 0) {
             break;
         }
-        cout << buffer << endl;
+        // cout << buffer << endl;
         file << buffer;
         memset(buffer, 0, kBufferSize);
     }
