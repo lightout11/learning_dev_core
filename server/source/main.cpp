@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     switch (argc) {
         case 1:
             ip_address = default_ip_address;
-            port = default_port
+            port = default_port;
         case 3:
             ip_address = argv[1];
             port = stoi(argv[2]);
