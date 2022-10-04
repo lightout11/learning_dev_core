@@ -13,7 +13,7 @@
 using namespace std;
 
 ServerSocket::ServerSocket(string ip_address, int port) {
-    command_ = "";
+    // command_ = "";
     socket_ = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_ < 0) {
         cout << "Error creating socket." << endl;
@@ -26,6 +26,22 @@ ServerSocket::ServerSocket(string ip_address, int port) {
         cout << "Error binding socket." << endl;
         exit(1);
     }
+}
+
+int ServerSocket::Listen() {
+    cout << "Listening..." << endl;
+    if (listen(socket_, kBackLog) < 0) {
+        cout << "Error listening socket." << endl;
+        exit(1);
+    }
+    socklen_t internet_socket_address_length = sizeof(internet_socket_address_);
+    accepted_socket_ = accept(socket_, (sockaddr*)&internet_socket_address_, &internet_socket_address_length);
+    if (accepted_socket_ < 0) {
+        cout << "Error accepting socket." << endl;
+        exit(1);
+    }
+    cout << "Accepted!" << endl;
+    return 0;
 }
 
 int ServerSocket::SendFile(std::string file_path) {
@@ -48,32 +64,17 @@ int ServerSocket::SendFile(std::string file_path) {
 
 int ServerSocket::Handle() {
     while (true) {
-        read(accepted_socket_, buffer_, sizeof(buffer_));
-        cout << buffer_ << endl;
-        string file = kTemporaryFileName;
-        command_ = buffer_ + string(" > ") + file;
-        system(command_.c_str());
-        SendFile(file);
         char buffer[kBufferSize];
+        read(accepted_socket_, buffer, sizeof(buffer));
+        cout << buffer << endl;
+        string file = kTemporaryFileName;
+        string command = buffer + string(" > ") + file;
+        system(command.c_str());
+        SendFile(file);
+        //char buffer[kBufferSize];
         memset(buffer, 0, kBufferSize);
         strcpy(buffer, "\e");
         send(accepted_socket_, buffer, kBufferSize, 0);
     }
-    return 0;
-}
-
-int ServerSocket::Listen() {
-    cout << "Listening..." << endl;
-    if (listen(socket_, kBackLog) < 0) {
-        cout << "Error listening socket." << endl;
-        exit(1);
-    }
-    socklen_t internet_socket_address_length = sizeof(internet_socket_address_);
-    accepted_socket_ = accept(socket_, (sockaddr*)&internet_socket_address_, &internet_socket_address_length);
-    if (accepted_socket_ < 0) {
-        cout << "Error accepting socket." << endl;
-        exit(1);
-    }
-    cout << "Accepted!" << endl;
     return 0;
 }
