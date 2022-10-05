@@ -12,7 +12,7 @@ class ClientSocket {
         ClientSocket(std::string ip_address, int port);
 
         int Communicate();
-        int Receive(std::string file_path);
+        int ReceiveFile(std::string file_path);
         int PrintFile(std::string file_path);
 
     protected:
