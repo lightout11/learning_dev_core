@@ -28,19 +28,46 @@ ServerSocket::ServerSocket(string ip_address, int port) {
     }
 }
 
-int ServerSocket::Listen() {
-    cout << "Listening..." << endl;
-    if (listen(socket_, kBackLog) < 0) {
-        cout << "Error listening socket." << endl;
-        exit(1);
+int ServerSocket::Handle() {
+    while (true) {
+        char buffer[kBufferSize];
+        read(accepted_socket_, buffer, sizeof(buffer));
+        cout << buffer << endl;
+        message_ = buffer;
+        int parse = ParseMessage();
+        switch (parse) {
+            case 0: {
+                string command = message_ + " > " + kOutput;
+                SendFile(kOutput);
+                char buffer[kBufferSize];
+                memset(buffer, 0, kBufferSize);
+                strcpy(buffer, "\e");
+                send(accepted_socket_, buffer, kBufferSize, 0);
+                break;
+            }
+            case 1: {
+                string path = message_.substr(message_.find(" ") + 1);
+                SendFile(path);
+                char buffer[kBufferSize];
+                memset(buffer, 0, kBufferSize);
+                strcpy(buffer, "\e");
+                send(accepted_socket_, buffer, kBufferSize, 0);
+                break;
+            }
+            case 2: {
+                
+            }
+        }
+        
+        // string file = kTemporaryFileName;
+        // string command = buffer + string(" > ") + file;
+        // system(command.c_str());
+        // SendFile(file);
+        // // char buffer[kBufferSize];
+        // memset(buffer, 0, kBufferSize);
+        // strcpy(buffer, "\e");
+        // send(accepted_socket_, buffer, kBufferSize, 0);
     }
-    socklen_t internet_socket_address_length = sizeof(internet_socket_address_);
-    accepted_socket_ = accept(socket_, (sockaddr*)&internet_socket_address_, &internet_socket_address_length);
-    if (accepted_socket_ < 0) {
-        cout << "Error accepting socket." << endl;
-        exit(1);
-    }
-    cout << "Accepted!" << endl;
     return 0;
 }
 
@@ -62,19 +89,18 @@ int ServerSocket::SendFile(std::string file_path) {
     return 0;
 }
 
-int ServerSocket::Handle() {
-    while (true) {
-        char buffer[kBufferSize];
-        read(accepted_socket_, buffer, sizeof(buffer));
-        cout << buffer << endl;
-        string file = kTemporaryFileName;
-        string command = buffer + string(" > ") + file;
-        system(command.c_str());
-        SendFile(file);
-        //char buffer[kBufferSize];
-        memset(buffer, 0, kBufferSize);
-        strcpy(buffer, "\e");
-        send(accepted_socket_, buffer, kBufferSize, 0);
+int ServerSocket::ParseMessage() {
+    if (message_.find("sendfile") == 0) {
+        return 1;
+    }
+    if (message_.find("getfile") == 0) {
+        return 2;
+    }
+    if (message_.find("cd") == 0) {
+        return 3;
+    }
+    if (message_.find("remoteexit")) {
+        return 4;
     }
     return 0;
 }

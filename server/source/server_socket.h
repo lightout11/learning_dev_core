@@ -13,18 +13,21 @@ class ServerSocket {
         int Listen();
         int Handle();
         int SendFile(std::string file_path);
+        int ParseMessage();
+        int ReceiveFile(std::string file_path);
 
     protected:
-        static constexpr int kBackLog = 8;
+        static constexpr int kBackLog = 1;
         static constexpr int kBufferSize = 256;
-        inline static const std::string kTemporaryFileName = "temp.txt";
+        inline static const std::string kOutput = "output.txt";
+
 
     private:
         int socket_;
         int accepted_socket_;
         sockaddr_in internet_socket_address_;
-        std::string command_;
-        char buffer_[kBufferSize];
+        std::string message_;
+        // char buffer_[kBufferSize];
 };
 
 #endif
