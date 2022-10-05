@@ -24,7 +24,7 @@ ClientSocket::ClientSocket(string ip_address, int port) {
     }
 }
 
-int ClientSocket::Receive(string file_path) {
+int ClientSocket::ReceiveFile(string file_path) {
     ofstream file(file_path);
     char buffer[kBufferSize];
     while (true) {
@@ -72,7 +72,7 @@ int ClientSocket::Communicate() {
         strcpy(buffer_, tmp.c_str());
         send(socket_, buffer_, kBufferSize, 0);
         // receive file
-        Receive(kTemporaryFileName);
+        ReceiveFile(kTemporaryFileName);
         PrintFile(kTemporaryFileName);
     }
     return 0;
